@@ -1,0 +1,590 @@
+#include "Std_Types.h"
+#include "RCC_Cfg.h"
+
+typedef enum{
+	RCC_enuOK = 0,
+	RCC_enuNotOk
+}RCC_enuErrorStatus;
+
+/*-----------Selected Clock Status------------*/
+typedef enum{
+	RCC_HSI = 0b00,
+	RCC_HSE = 0b01,
+	RCC_PLL = 0b10,
+	RCC_LSE,
+	RCC_PLLI2S
+}RCC_enuClockType;
+
+typedef enum{
+	RCC_PLL_MIN_M = 2,
+	RCC_PLL_MIN_P = 0,
+	RCC_PLL_MIN_N = 192,
+	RCC_PLL_MIN_Q = 2
+}RCC_enuPllMINClockConfig;
+
+typedef enum{
+	RCC_PLL_MAX_M = 63,
+	RCC_PLL_MAX_P = 3,
+	RCC_PLL_MAX_N = 432,
+	RCC_PLL_MAX_Q = 15
+}RCC_enuPllMaxClockConfig;
+
+typedef enum
+{
+	RCC_PLLQ2 = 2,
+	RCC_PLLQ3,
+	RCC_PLLQ4,
+	RCC_PLLQ5,
+	RCC_PLLQ6,
+	RCC_PLLQ7,
+	RCC_PLLQ8,
+	RCC_PLLQ9,
+	RCC_PLLQ10,
+	RCC_PLLQ11,
+	RCC_PLLQ12,
+	RCC_PLLQ13,
+	RCC_PLLQ14,
+	RCC_PLLQ15
+
+}RCC_enuPLLQ;
+
+typedef enum
+{
+	RCC_PLLP2 = 0,
+	RCC_PLLP4,
+	RCC_PLLP6,
+	RCC_PLLP8
+
+}RCC_enuPLLP;
+
+typedef enum
+{
+	RCC_PLLN192 = 192,
+	RCC_PLLN193,
+	RCC_PLLN194,
+	RCC_PLLN195,
+	RCC_PLLN196,
+	RCC_PLLN197,
+	RCC_PLLN198,
+	RCC_PLLN199,
+	RCC_PLLN200,
+	RCC_PLLN201,
+	RCC_PLLN202,
+	RCC_PLLN203,
+	RCC_PLLN204,
+	RCC_PLLN205,
+	RCC_PLLN206,
+	RCC_PLLN207,
+	RCC_PLLN208,
+	RCC_PLLN209,
+	RCC_PLLN210,
+	RCC_PLLN211,
+	RCC_PLLN212,
+	RCC_PLLN213,
+	RCC_PLLN214,
+	RCC_PLLN215,
+	RCC_PLLN216,
+	RCC_PLLN217,
+	RCC_PLLN218,
+	RCC_PLLN219,
+	RCC_PLLN220,
+	RCC_PLLN221,
+	RCC_PLLN222,
+	RCC_PLLN223,
+	RCC_PLLN224,
+	RCC_PLLN225,
+	RCC_PLLN226,
+	RCC_PLLN227,
+	RCC_PLLN228,
+	RCC_PLLN229,
+	RCC_PLLN230,
+	RCC_PLLN231,
+	RCC_PLLN232,
+	RCC_PLLN233,
+	RCC_PLLN234,
+	RCC_PLLN235,
+	RCC_PLLN236,
+	RCC_PLLN237,
+	RCC_PLLN238,
+	RCC_PLLN239,
+	RCC_PLLN240,
+	RCC_PLLN241,
+	RCC_PLLN242,
+	RCC_PLLN243,
+	RCC_PLLN244,
+	RCC_PLLN245,
+	RCC_PLLN246,
+	RCC_PLLN247,
+	RCC_PLLN248,
+	RCC_PLLN249,
+	RCC_PLLN250,
+	RCC_PLLN251,
+	RCC_PLLN252,
+	RCC_PLLN253,
+	RCC_PLLN254,
+	RCC_PLLN255,
+	RCC_PLLN256,
+	RCC_PLLN257,
+	RCC_PLLN258,
+	RCC_PLLN259,
+	RCC_PLLN260,
+	RCC_PLLN261,
+	RCC_PLLN262,
+	RCC_PLLN263,
+	RCC_PLLN264,
+	RCC_PLLN265,
+	RCC_PLLN266,
+	RCC_PLLN267,
+	RCC_PLLN268,
+	RCC_PLLN269,
+	RCC_PLLN270,
+	RCC_PLLN271,
+	RCC_PLLN272,
+	RCC_PLLN273,
+	RCC_PLLN274,
+	RCC_PLLN275,
+	RCC_PLLN276,
+	RCC_PLLN277,
+	RCC_PLLN278,
+	RCC_PLLN279,
+	RCC_PLLN280,
+	RCC_PLLN281,
+	RCC_PLLN282,
+	RCC_PLLN283,
+	RCC_PLLN284,
+	RCC_PLLN285,
+	RCC_PLLN286,
+	RCC_PLLN287,
+	RCC_PLLN288,
+	RCC_PLLN289,
+	RCC_PLLN290,
+	RCC_PLLN291,
+	RCC_PLLN292,
+	RCC_PLLN293,
+	RCC_PLLN294,
+	RCC_PLLN295,
+	RCC_PLLN296,
+	RCC_PLLN297,
+	RCC_PLLN298,
+	RCC_PLLN299,
+	RCC_PLLN300,
+	RCC_PLLN301,
+	RCC_PLLN302,
+	RCC_PLLN303,
+	RCC_PLLN304,
+	RCC_PLLN305,
+	RCC_PLLN306,
+	RCC_PLLN307,
+	RCC_PLLN308,
+	RCC_PLLN309,
+	RCC_PLLN310,
+	RCC_PLLN311,
+	RCC_PLLN312,
+	RCC_PLLN313,
+	RCC_PLLN314,
+	RCC_PLLN315,
+	RCC_PLLN316,
+	RCC_PLLN317,
+	RCC_PLLN318,
+	RCC_PLLN319,
+	RCC_PLLN320,
+	RCC_PLLN321,
+	RCC_PLLN322,
+	RCC_PLLN323,
+	RCC_PLLN324,
+	RCC_PLLN325,
+	RCC_PLLN326,
+	RCC_PLLN327,
+	RCC_PLLN328,
+	RCC_PLLN329,
+	RCC_PLLN330,
+	RCC_PLLN331,
+	RCC_PLLN332,
+	RCC_PLLN333,
+	RCC_PLLN334,
+	RCC_PLLN335,
+	RCC_PLLN336,
+	RCC_PLLN337,
+	RCC_PLLN338,
+	RCC_PLLN339,
+	RCC_PLLN340,
+	RCC_PLLN341,
+	RCC_PLLN342,
+	RCC_PLLN343,
+	RCC_PLLN344,
+	RCC_PLLN345,
+	RCC_PLLN346,
+	RCC_PLLN347,
+	RCC_PLLN348,
+	RCC_PLLN349,
+	RCC_PLLN350,
+	RCC_PLLN351,
+	RCC_PLLN352,
+	RCC_PLLN353,
+	RCC_PLLN354,
+	RCC_PLLN355,
+	RCC_PLLN356,
+	RCC_PLLN357,
+	RCC_PLLN358,
+	RCC_PLLN359,
+	RCC_PLLN360,
+	RCC_PLLN361,
+	RCC_PLLN362,
+	RCC_PLLN363,
+	RCC_PLLN364,
+	RCC_PLLN365,
+	RCC_PLLN366,
+	RCC_PLLN367,
+	RCC_PLLN368,
+	RCC_PLLN369,
+	RCC_PLLN370,
+	RCC_PLLN371,
+	RCC_PLLN372,
+	RCC_PLLN373,
+	RCC_PLLN374,
+	RCC_PLLN375,
+	RCC_PLLN376,
+	RCC_PLLN377,
+	RCC_PLLN378,
+	RCC_PLLN379,
+	RCC_PLLN380,
+	RCC_PLLN381,
+	RCC_PLLN382,
+	RCC_PLLN383,
+	RCC_PLLN384,
+	RCC_PLLN385,
+	RCC_PLLN386,
+	RCC_PLLN387,
+	RCC_PLLN388,
+	RCC_PLLN389,
+	RCC_PLLN390,
+	RCC_PLLN391,
+	RCC_PLLN392,
+	RCC_PLLN393,
+	RCC_PLLN394,
+	RCC_PLLN395,
+	RCC_PLLN396,
+	RCC_PLLN397,
+	RCC_PLLN398,
+	RCC_PLLN399,
+	RCC_PLLN400,
+	RCC_PLLN401,
+	RCC_PLLN402,
+	RCC_PLLN403,
+	RCC_PLLN404,
+	RCC_PLLN405,
+	RCC_PLLN406,
+	RCC_PLLN407,
+	RCC_PLLN408,
+	RCC_PLLN409,
+	RCC_PLLN410,
+	RCC_PLLN411,
+	RCC_PLLN412,
+	RCC_PLLN413,
+	RCC_PLLN414,
+	RCC_PLLN415,
+	RCC_PLLN416,
+	RCC_PLLN417,
+	RCC_PLLN418,
+	RCC_PLLN419,
+	RCC_PLLN420,
+	RCC_PLLN421,
+	RCC_PLLN422,
+	RCC_PLLN423,
+	RCC_PLLN424,
+	RCC_PLLN425,
+	RCC_PLLN426,
+	RCC_PLLN427,
+	RCC_PLLN428,
+	RCC_PLLN429,
+	RCC_PLLN430,
+	RCC_PLLN431,
+	RCC_PLLN432
+}RCC_enuPLLN;
+
+typedef enum 
+{
+	RCC_PLLM2 = 2,
+	RCC_PLLM3 ,
+	RCC_PLLM4,
+	RCC_PLLM5,
+	RCC_PLLM6,
+	RCC_PLLM7,
+	RCC_PLLM8,
+	RCC_PLLM9,
+	RCC_PLLM10,
+	RCC_PLLM11,
+	RCC_PLLM12,
+	RCC_PLLM13,
+	RCC_PLLM14,
+	RCC_PLLM15,
+	RCC_PLLM16,
+	RCC_PLLM17,
+	RCC_PLLM18,
+	RCC_PLLM19,
+	RCC_PLLM20,
+	RCC_PLLM21,
+	RCC_PLLM22,
+	RCC_PLLM23,
+	RCC_PLLM24,
+	RCC_PLLM25,
+	RCC_PLLM26,
+	RCC_PLLM27,
+	RCC_PLLM28,
+	RCC_PLLM29,
+	RCC_PLLM30,
+	RCC_PLLM31,
+	RCC_PLLM32,
+	RCC_PLLM33,
+	RCC_PLLM34,
+	RCC_PLLM35,
+	RCC_PLLM36,
+	RCC_PLLM37,
+	RCC_PLLM38,
+	RCC_PLLM39,
+	RCC_PLLM40,
+	RCC_PLLM41,
+	RCC_PLLM42,
+	RCC_PLLM43,
+	RCC_PLLM44,
+	RCC_PLLM45,
+	RCC_PLLM46,
+	RCC_PLLM47,
+	RCC_PLLM48,
+	RCC_PLLM49,
+	RCC_PLLM50,
+	RCC_PLLM51,
+	RCC_PLLM52,
+	RCC_PLLM53,
+	RCC_PLLM54,
+	RCC_PLLM55,
+	RCC_PLLM56,
+	RCC_PLLM57,
+	RCC_PLLM58,
+	RCC_PLLM59,
+	RCC_PLLM60,
+	RCC_PLLM61,
+	RCC_PLLM62,
+	RCC_PLLM63
+
+}RCC_enuPLLM;
+
+
+typedef enum 
+{
+	RCC_AHB_SystemClockDivBy2 = 8,
+	RCC_AHB_SystemClockDivBy4,
+	RCC_AHB_SystemClockDivBy8,
+	RCC_AHB_SystemClockDivBy16,
+	RCC_AHB_SystemClockDivBy64,
+	RCC_AHB_SystemClockDivBy128,
+	RCC_AHB_SystemClockDivBy256,
+	RCC_AHB_SystemClockDivBy512 
+
+}RCC_enuAHB_PRESCALER_HPRE;
+
+
+typedef enum 
+{
+	RCC_AHB_ClockDivBy2 = 2,
+	RCC_AHB_ClockDivBy4,
+	RCC_AHB_ClockDivBy8,
+	RCC_AHB_ClockDivBy16
+
+}RCC_enuAPB_Prescaler_PPRE;
+
+typedef enum 
+{
+	RCC_HSE_ClockDivBy2 = 2,
+	RCC_HSE_ClockDivBy3, 
+	RCC_HSE_ClockDivBy4,
+	RCC_HSE_ClockDivBy5,
+	RCC_HSE_ClockDivBy6,
+	RCC_HSE_ClockDivBy7,
+	RCC_HSE_ClockDivBy8,
+	RCC_HSE_ClockDivBy9,
+	RCC_HSE_ClockDivBy10,
+	RCC_HSE_ClockDivBy11,
+	RCC_HSE_ClockDivBy12,
+	RCC_HSE_ClockDivBy13,
+	RCC_HSE_ClockDivBy14,
+	RCC_HSE_ClockDivBy15,
+	RCC_HSE_ClockDivBy16,
+	RCC_HSE_ClockDivBy17,
+	RCC_HSE_ClockDivBy18,
+	RCC_HSE_ClockDivBy19,
+	RCC_HSE_ClockDivBy20,
+	RCC_HSE_ClockDivBy21,
+	RCC_HSE_ClockDivBy22,
+	RCC_HSE_ClockDivBy23,
+	RCC_HSE_ClockDivBy24,
+	RCC_HSE_ClockDivBy25,
+	RCC_HSE_ClockDivBy26,
+	RCC_HSE_ClockDivBy27,
+	RCC_HSE_ClockDivBy28,
+	RCC_HSE_ClockDivBy29,
+	RCC_HSE_ClockDivBy30,
+	RCC_HSE_ClockDivBy31
+
+}RCC_enuHSE_DivFactor_RTCPRE;
+
+
+typedef enum 
+{
+	RCC_MCO_ClockDivBy2 = 4,
+	RCC_MCO_ClockDivBy3,
+	RCC_MCO_ClockDivBy4,
+	RCC_MCO_ClockDivBy5
+
+}RCC_enuMCO_DivFactor_MCOPRE;
+
+typedef enum
+{
+	RCC_TIM2_EN_RST = 0,
+	RCC_TIM3_EN_RST,
+	RCC_TIM4_EN_RST,
+	RCC_TIM5_EN_RST,
+	RCC_WWDG_EN_RST = 11,
+	RCC_SPI2_EN_RST = 14,
+	RCC_SPI3_EN_RST,
+	RCC_USART2_EN_RST= 17,
+	RCC_I2C1_EN_RST = 21,
+	RCC_I2C2_EN_RST,
+	RCC_I2C3_EN_RST,
+	RCC_PWR_EN_RST = 28
+	
+}RCC_APB1_En_RST_Peripherals;
+
+typedef enum
+{
+	RCC_TIM1_EN_RST = 0,
+	RCC_USART1_EN_RST = 4,
+	RCC_USART6_EN_RST,
+	RCC_ADC1_EN_RST = 8,
+	RCC_SDIO_EN_RST = 11,
+	RCC_SPI1_EN_RST,
+	RCC_SPI4_EN_RST,
+	RCC_SYSCF_G_EN_RST,
+	RCC_TIM9_EN_RST = 16,
+	RCC_TIM10_EN_RST,
+	RCC_TIM11_EN_RST
+	
+}RCC_APB2_EN_RST_Peripherals;
+
+typedef enum
+{
+	RCC_OTGFS_EN_RST = 7
+
+}RCC_AHB2_EN_RST_Peripherals;
+
+typedef enum
+{
+	RCC_GPIO_A_EN_RST = 0,
+	RCC_GPIO_B_EN_RST,
+	RCC_GPIO_C_EN_RST,
+	RCC_GPIO_D_EN_RST,
+	RCC_GPIO_E_EN_RST,
+	RCC_GPIO_H_EN_RST = 7,
+	RCC_CRC_EN_RST = 12,
+	RCC_DMA1_EN_RST = 21,
+	RCC_DMA2_EN_RST
+
+}RCC_AHB1_EN_RST_Peripherals;
+
+
+/*
+---------------------------------------------------------------------
+GET THE SELECTED SYSTEM CLOCK FROM THE SWS
+INPUT : VARIABLE ADDRESS TO BE SET WITH THE SELECTED CLOCK
+RETURN : THE SELECTED CLOCK WHETHER
+---DESCRIPTION :
+	SWS = *Add_pu8SelectedClock = HSI 0 0
+	SWS = *Add_pu8SelectedClock = HSE 0 1
+	SWS = *Add_pu8SelectedClock = PLL 1 0
+--------------------------------------------------------------------------
+*/
+void RCC_enuGetSelectedClock(u8*Add_pu8SelectedClock);
+/*
+---------------------------------------------------------------------
+SET THE SYSTEM SYSTEM CLOCK
+INPUT : CLOCK TYPE ENUM
+RETURN : ERROR STATUS [OK  || NOT OK]
+---DESCRIPTION :
+ HSI ON  = 1 & RDY = 1
+ HSE ON  = 1 & RDY = 1
+ PLL ON  = 1 & RDY = 1
+--------------------------------------------------------------------------
+*/
+RCC_enuErrorStatus RCC_enuSetClock(RCC_enuClockType Cpy_enuClockType);
+/*
+---------------------------------------------------------------------
+RESET THE SYSTEM SYSTEM CLOCK
+INPUT : CLOCK TYPE ENUM
+RETURN : ERROR STATUS [OK  || NOT OK]
+---DESCRIPTION :
+ HSI OFF = 0
+ HSE ON  = 0
+ PLL ON  = 0
+--------------------------------------------------------------------------
+*/
+
+RCC_enuErrorStatus RCC_enuResetClock(RCC_enuClockType Cpy_enuClockType);
+/*
+---------------------------------------------------------------------
+CHECK THE SYSTEM SYSTEM CLOCK IS READY OR NOT
+INPUT : CLOCK TYPE ENUM
+RETURN : ERROR STATUS [OK  || NOT OK]
+---DESCRIPTION :
+ HSI RDY
+ HSE RDY
+ PLL RDY
+--------------------------------------------------------------------------
+*/
+RCC_enuErrorStatus RCC_enuCheckClockReady(RCC_enuClockType Cpy_enuClockType);
+/*
+---------------------------------------------------------------------
+CHECK THE SYSTEM SYSTEM CLOCK STATUS
+INPUT : CLOCK TYPE ENUM
+RETURN : ERROR STATUS [OK  || NOT OK]
+---DESCRIPTION :
+ CHECKING SWS = SW OR NOT
+--------------------------------------------------------------------------
+*/
+RCC_enuErrorStatus RCC_enuCheckClockStatus(RCC_enuClockType Cpy_enuClockType);
+/*
+---------------------------------------------------------------------
+SELECT THE SYSTEM SYSTEM CLOCK
+INPUT : CLOCK TYPE ENUM
+RETURN : ERROR STATUS [OK  || NOT OK]
+---DESCRIPTION :
+SETTING THE SW WITH THE DESIRED CLOCK
+ SW = HSI
+ SW = HSE
+ SW = PLL
+--------------------------------------------------------------------------
+*/
+RCC_enuErrorStatus RCC_enuSelectSystemClock(RCC_enuClockType Cpy_enuClockType);
+/*
+---------------------------------------------------------------------
+CONFIGURE PLL CLOCK
+INPUT : CLOCK SRC ENUM , MAIN PLL FACTOR ENUM , VCO PLL FACTOR , MAIN SYSTEM CLOCK FACTOR ENUM , USB OTG FS FACTOR ENUM
+RETURN : ERROR STATUS [OK  || NOT OK]
+---DESCRIPTION :
+ SETTING P , M , Q, N FOR SYSTEM CLOCK CONFIG
+--------------------------------------------------------------------------
+*/
+
+RCC_enuErrorStatus RCC_enuConfigurePLLClock(RCC_enuClockType Cpy_u32PllClockSrc,RCC_enuPLLM Cpy_enuPllM,RCC_enuPLLN Cpy_enuPllN,RCC_enuPLLP Cpy_enuPllP,RCC_enuPLLQ Cpy_enuPllQ);
+/*
+---------------------------------------------------------------------
+SETTING ANY PRESCALER VALUE IN THE SYETEM
+INPUT : AHB PRESCALER VALUE ENUM, APB1 PRESCALER VALUE ENUM, APB2 PRESCALER VALUE ENUM, RTC PRESCALER VALUE ENUM, MCO1 PRESCALER VALUE ENUM, MCO2 PRESCALER VALUE ENUM
+RETURN : ERROR STATUS [OK  || NOT OK]
+---DESCRIPTION :
+SET PRESALER VALUES FROM EACH BUS, RTC MCO1 & MCO2
+--------------------------------------------------------------------------
+*/
+RCC_enuErrorStatus RCC_SetPrescaler(RCC_enuAHB_PRESCALER_HPRE Cpy_enuAHB_Pre, RCC_enuAPB_Prescaler_PPRE Cpy_enuAPB1_Pre, RCC_enuAPB_Prescaler_PPRE Cpy_enuAPB2_Pre, RCC_enuHSE_DivFactor_RTCPRE Cpy_enuRTC_Pre, RCC_enuMCO_DivFactor_MCOPRE Cpy_enuMCO1_Pre, RCC_enuMCO_DivFactor_MCOPRE Cpy_enuMCO2_Pre);
+
+RCC_enuErrorStatus RCC_enuSetPeripheralBusesStatus();
+
